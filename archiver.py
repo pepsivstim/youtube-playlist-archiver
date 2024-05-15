@@ -1,19 +1,15 @@
 from googleapiclient.discovery import build
+from dotenv import load_dotenv 
 import os
 import json
 
+# Load from .env
+load_dotenv()
 
-youtube = build('youtube', 'v3', developerKey=os.environ["API_KEY"])
+# Create "service object"
+youtube = build('youtube', 'v3', developerKey=os.getenv("API_KEY"))
 
-# request = youtube.channels().list(
-#     part='statistics',
-#     forHandle='pepsivstim'
-# )
-
-# response = request.execute()
-
-# print(json.dumps(response, sort_keys=True, indent=4))
-
+# Form the request
 request = youtube.playlists().list(
     part='snippet',
     channelId='UC5FNZuDRFVPArJ-4EI3hLUQ',
@@ -21,5 +17,7 @@ request = youtube.playlists().list(
 
 response = request.execute()
 
-#print(response)
-#print(json.dumps(response, sort_keys=True, indent=4))
+print(json.dumps(response, sort_keys=True, indent=4))
+
+# Close the connection
+youtube.close()
